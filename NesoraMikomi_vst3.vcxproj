@@ -82,6 +82,7 @@
     <TargetExt>.vst3</TargetExt>
     <IncludePath>C:\VST_SDK\vst3sdk\vstgui4;C:\VST_SDK\vst3sdk;$(IncludePath)</IncludePath>
     <LibraryPath>C:\VST_SDK\vst3sdk\build\lib\Debug;C:\VST_SDK\vst3sdk/out/build/x64-Debug/lib;$(LibraryPath)</LibraryPath>
+    <OutDir>C:\Program Files\Common Files\VST3\Nesora\Debug\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -155,10 +156,13 @@
     <ClCompile Include="C:\VST_SDK\vst3sdk\public.sdk\source\main\dllmain.cpp" />
     <ClCompile Include="controller.cpp" />
     <ClCompile Include="factory.cpp" />
+    <ClCompile Include="myparameter.cpp" />
     <ClCompile Include="processor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="controller.h" />
+    <ClInclude Include="digitalFilter.h" />
+    <ClInclude Include="myparameter.h" />
     <ClInclude Include="myvst3fuid.h" />
     <ClInclude Include="myvst3define.h" />
     <ClInclude Include="processor.h" />

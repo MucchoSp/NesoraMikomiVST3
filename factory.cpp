@@ -54,8 +54,8 @@ BEGIN_FACTORY_DEF(MYVST_VENDOR, MYVST_URL, MYVST_EMAIL)
 		PClassInfo::kManyInstances,
 		kVstComponentControllerClass,
 		MYVST_VSTNAME " Controller",	// 自作VSTの名前に"Controller"を付与したもの。
-		0,						    // 使わないので必ず0にする
-		"",						    // 使わないので必ず""にする
+		0,								// 使わないので必ず0にする
+		"",								// 使わないので必ず""にする
 		MYVST_VERSION,
 		kVstVersionString,
 		Steinberg::Vst::MyVSTController::createInstance)

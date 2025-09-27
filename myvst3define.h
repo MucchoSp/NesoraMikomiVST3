@@ -1,3 +1,7 @@
 #pragma once
 //パラメーター用のタグ
-#define PARAM1_TAG 100
+#define PARAM_DEPTH_TAG 100
+#define PARAM_SPEED_TAG 101
+#define PARAM_TYPE_TAG 102
+#define PARAM_FILTERFREQ_TAG 103
+#define PARAM_FILTERQ_TAG 104
