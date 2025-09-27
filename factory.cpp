@@ -22,7 +22,7 @@
 #define MYVST_VERSION  "1.0.0" 
 
 // 自作するVSTのカテゴリ。終端文字「\0」含めて64文字まで。
-#define MYVST_SUBCATEGORIES Vst::PlugType::kFx
+#define MYVST_SUBCATEGORIES Vst::PlugType::kInstrument
 
 
 // ===================================================================================

@@ -29,6 +29,24 @@ namespace Steinberg {
 			return result;
 		}
 
+		tresult PLUGIN_API MyVSTController::getMidiControllerAssignment(int32 busIndex, int16 channel, CtrlNumber midiControllerNumber, ParamID& id)
+		{
 
+			// midiControllerNumberに関係付けたいパラメータータグ(ID)をidに代入することで
+			// MIDIコントロールチェンジとパラメーターを関連付ける
+			// イベントバスやMIDIチャンネルに応じて関連付けを変更したい場合は
+			// busIndexやchannelを使用して条件分けする
+			switch (midiControllerNumber)
+			{
+			case kCtrlExpression:
+			case kCtrlVolume:
+				// 関連付けるパラメーターがある場合、kResultTrueを返す
+				id = PARAM1_TAG;
+				return kResultTrue;
+			}
+
+			// 関連付けるパラメーターがない場合、kResultFalseを返す
+			return kResultFalse;
+		}
 	}
 } // namespace SteinbergとVstの終わり
