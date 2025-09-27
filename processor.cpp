@@ -26,13 +26,21 @@ namespace Steinberg {
 			tresult result = AudioEffect::initialize(context);
 			if (result == kResultTrue)
 			{
+				// 以下固有の初期化を実施。
+
 				// 入力と出力を設定
 				addAudioInput(STR16("AudioInput"), SpeakerArr::kStereo);
 				addAudioOutput(STR16("AudioOutput"), SpeakerArr::kStereo);
 
-				// 以下固有の初期化を実施。
+				// 入力のEventBusを追加する
+				addEventInput(STR16("Event Input"), 1);
 
-				// 今回は何もしない
+				// 以下固有の初期化を実施
+				depth = 1.0f;
+				freq = 5.0f;
+				type = 0;
+
+				theta = 0.0f;
 			}
 
 
@@ -88,9 +96,25 @@ namespace Steinberg {
 							// tagに応じた処理を実施
 							switch (tag)
 							{
-							case PARAM1_TAG:
-								// volumeはメンバー変数としてあらかじめ定義・初期化しておく。
-								volume = value;
+							case PARAM_DEPTH_TAG:
+								// depthを変更する。
+								depth = value;
+								break;
+							case PARAM_SPEED_TAG:
+								// depthを変更する。
+								// RangeParameterで作成されたパラメーターも、プロセッサクラスに渡されるときは
+								// 0.0～1.0となってしまう。
+								// 自分で各RangeParameterに応じた範囲を設定する必要がある。
+								freq = (29.5f * value) + 0.5f; // 0.5～30.0の間に変更
+								break;
+							case PARAM_TYPE_TAG:
+								// typeを変更する。
+								// StringListParameterで作成されたパラメーターも、プロセッサクラスに
+								// 渡されるときは0.0～1.0となってしまう。
+								// 今回はリスト数は3つなので、Volume…0.0f、Tremolo…0.5f、Panning…1.0fとなる。
+								// リストの数が4つの場合、0.0f、0.333…、0.666…、1.0fとなる。
+								// 「1.0f / (リストの数 - 1)」で求められる。
+								type = (int32)(value * 2.0f);
 								break;
 							}
 						}
@@ -111,8 +135,36 @@ namespace Steinberg {
 			// numSamplesで示されるサンプル分、音声を処理する
 			for (int32 i = 0; i < data.numSamples; i++)
 			{
-				outL[i] = inL[i];
-				outR[i] = inR[i];
+				// sin関数の結果を0～1の間にする(トレモロ、パン用)
+				Sample32 a = (sin(theta) * 0.5f) + 0.5f;
+
+				// depthとaから入力信号に掛け合わせる値を計算する
+				Sample32 b = (1.0f - depth) + (a * depth);
+				Sample32 c = (1.0f - depth) + ((1.0f - a) * depth);
+
+				switch (type)
+				{
+				case 0: // ボリュームの場合
+					// 入力信号とdepthを掛け合わせる(先ほどのaとbは無視)
+					outL[i] = depth * inL[i];
+					outR[i] = depth * inR[i];
+					break;
+
+				case 1: // トレモロの場合
+					// 入力信号とbを掛け合わせる(左右同じ音量にするのでbのみ使用)
+					outL[i] = b * inL[i];
+					outR[i] = b * inR[i];
+					break;
+
+				case 2: // パンの場合
+					// 入力信号とb、cを掛け合わせる(左右で異なる音量にする)
+					outL[i] = b * inL[i];
+					outR[i] = c * inR[i];
+					break;
+				}
+
+				// 角度θに角速度を加える
+				theta += (2.0f * 3.14159265f * freq) / 44100.0f;
 			}
 
 			// 問題なければkResultTrueを返す(おそらく必ずkResultTrueを返す)

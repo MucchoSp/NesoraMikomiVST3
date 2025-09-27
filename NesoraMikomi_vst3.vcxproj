@@ -126,6 +126,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;VST3_EXPORTS;_WINDOWS;_USRDLL;VSTGUI_LIVE_EDITING=1;DEVELOPMENT=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -156,16 +157,21 @@
     <ClCompile Include="C:\VST_SDK\vst3sdk\public.sdk\source\main\dllmain.cpp" />
     <ClCompile Include="controller.cpp" />
     <ClCompile Include="factory.cpp" />
+    <ClCompile Include="guieditor.cpp" />
     <ClCompile Include="processor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="controller.h" />
+    <ClInclude Include="guieditor.h" />
     <ClInclude Include="myvst3fuid.h" />
     <ClInclude Include="myvst3define.h" />
     <ClInclude Include="processor.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="C:\Users\三瓶太睦\Downloads\vst3dev_20210403\vst3dev09_最小構成のVST GUI\resource.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

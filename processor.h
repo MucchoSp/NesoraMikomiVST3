@@ -12,7 +12,11 @@ namespace Steinberg {
 		class MyVSTProcessor : public AudioEffect
 		{
 		protected:
-			ParamValue volume;
+			ParamValue depth;
+			ParamValue freq;
+			int32 type;
+
+			ParamValue theta;
 		public:
 			// コンストラクタ
 			MyVSTProcessor();
